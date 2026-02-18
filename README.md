@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+React Component Library – Storybook Assessment
+Це реалізація тестового завдання для позиції Front-end JS Engineer. Бібліотека містить три основні UI-компоненти: Input, SdebarMenu, Toast.
 
-## Getting Started
+Швидкий старт
+Встановлення залежностей
+Bash
+npm install
 
-First, run the development server:
+# або
 
-```bash
+yarn install
+
+Запуск Storybook
+Bash
+npm run storybook
+Після запуску Storybook буде доступний за адресою http://localhost:6006.
+
+Запуск Next.js (Demo App)
+
+Bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+🧩 Огляд компонентів
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. 📥 Input Component
+   Універсальне поле вводу, що підтримує різні типи даних та стани.
+   Типи: text, password, number, email.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Особливості:
 
-## Learn More
+- Перемикач видимості пароля (eye icon).
+- Опція clearable (кнопка "X" з'являється при наявності тексту).
+- Валідація та стан помилки (error).
+- Підтримка disabled та label.
 
-To learn more about Next.js, take a look at the following resources:
+2. 🔔 Toast Notification
+   Система сповіщень для зворотного зв'язку з користувачем.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Типи: Success, Error, Warning, Info (кожен зі своєю іконкою та колірною схемою).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Особливості:
 
-## Deploy on Vercel
+- Автоматичне закриття (auto-dismiss) через заданий duration.
+- Анімована поява та зникнення.
+- Контейнер для групування декількох тостів одночасно.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. 📚 Sidebar Menu
+   Навігаційне меню з підтримкою необмеженої вкладеності.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Особливості:
+
+- Рекурсивний рендер: Компонент самостійно обробляє будь-який рівень вкладеності підменю.
+- Слайд-анімація при відкритті з правого боку.
+- Закриття при кліку на Backdrop.
+- Анімовані шеврони для розгортання пунктів меню.
+
+🛠 Технологічний стек
+React (Functional Components, Hooks)
+TypeScript (Сувора типізація пропсів та стейту)
+Storybook 8 (Документація та тестування компонентів)
+CSS Modules (Ізоляція стилів)
+Next.js (Базова інфраструктура)
+
+Скріншоти станів
+
+Input
+
+**Текстове поле:**
+![Text Input](/screensots/input_password.png)
+
+**Парольне поле з toggle visibility:**
+![Password Input](/screensots/input_password.png)
+
+**Парольне поле з кнопкою Clear:**
+![Password Clearable](/screensots/input_password_clear.png)
+
+**Числове поле:**
+![Number Input](/screensots/input_number.png)
+
+---
+
+Toast
+
+**Успішна операція:**
+![Success Toast](/screensots/toast_success.png)
+
+**Помилка:**
+![Error Toast](/screensots/toast_error.png)
+
+**Попередження:**
+![Warning Toast](/screensots/toast_warning.png)
+
+**Інформаційне повідомлення:**
+![Info Toast](/screensots/toast_info.png)
+
+---
+
+Sidebar Menu
+
+**Плоске меню (Flat Menu):**
+![Flat Sidebar Menu](/screensots/sidebar_flat.png)
+
+**Вкладене меню (Nested Menu):**
+![Nested Sidebar Menu](/screensots/sidebar_nestad.png)

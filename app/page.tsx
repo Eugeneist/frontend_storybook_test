@@ -1,65 +1,163 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import { Input } from "./components/Input/Input";
+import { Toast } from "./components/Toast/Toast";
+import { SidebarMenu, MenuItem } from "./components/SidebarMenu/SidebarMenu";
+import styles from "./page.module.css";
+
+const menuItems: MenuItem[] = [
+  { id: "1", label: "Dashboard", icon: "🏠" },
+  {
+    id: "2",
+    label: "Products",
+    icon: "📦",
+    children: [
+      { id: "2-1", label: "All Products" },
+      { id: "2-2", label: "Add New" },
+      {
+        id: "2-3",
+        label: "Categories",
+        children: [
+          { id: "2-3-1", label: "Electronics" },
+          { id: "2-3-2", label: "Clothing" },
+        ],
+      },
+    ],
+  },
+  { id: "4", label: "Settings", icon: "⚙️" },
+];
 
 export default function Home() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [toasts, setToasts] = useState<
+    { id: string; type: any; message: string }[]
+  >([]);
+
+  const addToast = (
+    type: "success" | "error" | "warning" | "info",
+    message: string,
+  ) => {
+    const id = Math.random().toString(36).substr(2, 9);
+    setToasts((prev) => [...prev, { id, type, message }]);
+  };
+
+  const removeToast = (id: string) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className={styles.page}>
+      <div className={styles.container}>
+        <header className={styles.headerWrapper}>
+          <div className={styles.header}>
+            <h1 className={styles.title}>Component Library Demo</h1>
+            <p className={styles.subtitle}>Input · Toast · Recursive Sidebar</p>
+          </div>
+          <div className={styles.storybookBadge}>Next.js + Storybook 8</div>
+        </header>
+
+        <section className={styles.guideBox}>
+          <h3 className={styles.guideTitle}>🚀 Тестування в Storybook</h3>
+          <p className={styles.hint}>
+            Запустіть команду для перегляду всіх станів компонентів:
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+          <code className={styles.codeBlock}>npm run storybook</code>
+        </section>
+
+        <Section title="📥 Input" label="1">
+          <div className={styles.inputGrid}>
+            <Input label="Text" placeholder="Type here..." />
+            <Input label="Password" type="password" placeholder="Password..." />
+            <Input label="Clearable" clearable defaultValue="Clear me!" />
+            <Input
+              label="Error"
+              error="Field is required"
+              defaultValue="Error value"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <Input label="Disabled" disabled defaultValue="Locked" />
+          </div>
+        </Section>
+
+        <Section title="🔔 Toast" label="2">
+          <p className={styles.hint}>Click to trigger a notification:</p>
+          <div className={styles.toastButtons}>
+            <button
+              className={`${styles.toastBtn} styles.btnSuccess`}
+              onClick={() => addToast("success", "Success!")}
+            >
+              ✅ Success
+            </button>
+            <button
+              className={`${styles.toastBtn} styles.btnError`}
+              onClick={() => addToast("error", "Error!")}
+            >
+              ❌ Error
+            </button>
+            <button
+              className={`${styles.toastBtn} styles.btnWarning`}
+              onClick={() => addToast("warning", "Warning!")}
+            >
+              ⚠️ Warning
+            </button>
+            <button
+              className={`${styles.toastBtn} styles.btnInfo`}
+              onClick={() => addToast("info", "Info!")}
+            >
+              ℹ️ Info
+            </button>
+          </div>
+        </Section>
+
+        <Section title="📚 Sidebar Menu" label="3">
+          <p className={styles.hint}>
+            Recursive menu with infinite nesting support.
+          </p>
+          <button
+            className={styles.openBtn}
+            onClick={() => setSidebarOpen(true)}
           >
-            Documentation
-          </a>
-        </div>
-      </main>
+            ☰ Open Sidebar
+          </button>
+        </Section>
+      </div>
+
+      <div className={styles.toastPortal}>
+        {toasts.map((t) => (
+          <Toast
+            key={t.id}
+            {...t}
+            duration={4000}
+            onClose={() => removeToast(t.id)}
+          />
+        ))}
+      </div>
+
+      <SidebarMenu
+        items={menuItems}
+        isOpen={sidebarOpen}
+        title="App Menu"
+        onClose={() => setSidebarOpen(false)}
+      />
     </div>
+  );
+}
+function Section({
+  title,
+  label,
+  children,
+}: {
+  title: string;
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className={styles.section}>
+      <div className={styles.sectionHeader}>
+        <span className={styles.badge}>{label}</span>
+        <h2 className={styles.sectionTitle}>{title}</h2>
+      </div>
+      <div className={styles.sectionBody}>{children}</div>
+    </section>
   );
 }
